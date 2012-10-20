@@ -1,0 +1,12 @@
+{
+  "name": "menews",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.0.x",
+    "restler":"2.0.x"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}

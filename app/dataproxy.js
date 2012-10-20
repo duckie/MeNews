@@ -5,7 +5,7 @@ var restler = require('restler');
 var port = process.env.PORT || 1235;
 
 console.log("Listening on " + port);
-app.use(express.bodyParser());
+//app.use(express.bodyParser());
 app.listen(port);
 
 app.get('/index.html', function(req, res) {
@@ -21,8 +21,7 @@ app.get('/css/*', function(req, res) {
 
 app.all('/*', function(req, res) {
     req.url = req.query.url;
-    console.log(req.url);
-    restler.get(req.url, {}).on('complete', function (data) {
+    restler.get(req.url, { headers: {'Referer':null, 'X-Requested-With':null} }).on('complete', function (data) {
         //res.set('Content-Type', 'application/xml');
         res.send(data);
     });
