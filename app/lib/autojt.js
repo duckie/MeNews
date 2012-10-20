@@ -1,55 +1,9 @@
 define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
     
     function generate_xml(iFlvFiles) {
-        console.log("envoie la sauce batard");
         var stupeflix_xml = '<!-- '
 
-        stupeflix_xml += '<stack duration="20.0"> \
-            <effect type="none"> \
-            <image color="#F0F2EB"/> \
-            </effect> \
-            \
-            <overlay left="0.12" width="0.3" top="0.1" height="0.3" margin-start="1.0"> \
-            <image color="#FF4242"/> \
-            <animator type="slide-in" direction="right" duration="1.0" /> \
-            </overlay> \
-            \
-            <overlay right="0.12" width="0.3" top="0.1" height="0.3" margin-start="3.0"> \
-            <image color="#F4FAD2"/> \
-            <animator type="slide-in" direction="down" duration="1.0" /> \
-            <animator type="custom"> \
-                <key scale="1,1,1" time="0.0"/> \
-                <key scale="1.2,1,1" time="1.0"/> \
-                <key scale="1.0,1.2,1" time="4.0"/> \
-                <key scale="1,1,1" time="5.0"/> \
-            </animator> \
-            </overlay> \
- \
-            <overlay left="0.2" width="0.3" bottom="0.2" height="0.3" margin-start="6.0"> \
-            <image color="#D4EE5E"/> \
-            <animator type="slide-in" direction="up" duration="1.0" /> \
-            <animator type="grow" growStart="0.0" growEnd="0.3" duration="3.0"/> \
-            <animator type="grow" growStart="0.3" growEnd="0.0"/> \
-            </overlay> \
-            \
-            <overlay right="0.12" width="0.3" bottom="0.2" height="0.3" margin-start="9.0"> \
-            <image color="#E1EDB9"/> \
-            <animator type="slide-in" direction="left" duration="1.0" /> \
-            </overlay> \
-            \
-            <text type="zone" vector="true" margin-start="12.0"> \
-                NewsMixer \
-                <filter type="distancemap" distanceWidth="40.0"/> \
-                <filter type="distancecolor" distanceWidth="40.0" color="#ffffff" /> \
-                <filter type="distancecolor" distanceWidth="40.0" color="#000000" dropShadowColor="#000000" dropShadowBlurWidth="0.5" dropShadowOpacity="0.8" dropShadowPosition="-0.02,0.02"/> \
-                <animator type="custom"> \
-                    <key time="12.0" dropShadowOpacity="0.0" /> \
-                    <key time="15.0" dropShadowOpacity="1.0" /> \
-                </animator> \
-            </text> \
-            \
-            <audio filename="https://dl.dropbox.com/u/20904373/generique.mp3" duration=".." fadeout="2"/> \
-        </stack>'
+        stupeflix_xml += '<effect type="none"><video filename="https://dl.dropbox.com/u/20904373/FINAL_generique.wmv" /></effect>';
 
         _.each(iFlvFiles, function(elem){
             //stupeflix_xml += '<effect type="explode" duration="20"> <video filename="'+elem+'"/> </effect> <transition type="move" direction="left" duration="2"/>'
@@ -57,7 +11,6 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         });
         stupeflix_xml += ' -->';
 
-        console.log(stupeflix_xml);
         $('#page1').hide();
         $('#moviexml').append(stupeflix_xml);
         $('#moviexml').show();
