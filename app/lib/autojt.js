@@ -37,7 +37,7 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
             for(index = 0; index < local_nb; ++index) {
                 $.ajax({
                     //url: 'http://localhost:1235/?url=' + encodeURIComponent(feed.items[index].link),
-                    url: '/?url=' + encodeURIComponent(feed.items[index].link),
+                    url: '/proxy?url=' + encodeURIComponent(feed.items[index].link),
                     type: 'GET',
                     timeout:5000,
                     error: function(){
@@ -95,7 +95,7 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         var count = datas.length;
         _.each(datas, function(elem, topic_index){
             $.getFeed({
-              url: '/?url=' + encodeURIComponent(toBrowse[elem]),
+              url: '/proxy?url=' + encodeURIComponent(toBrowse[elem]),
               timeout:5000,
               success: function(feed) {
                 iProgressFeed(topic_index + 1, datas.length);

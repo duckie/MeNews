@@ -6,20 +6,25 @@ var port = process.env.PORT || 1235;
 
 console.log("Listening on " + port);
 //app.use(express.bodyParser());
+app.use(express.static(__dirname));
 app.listen(port);
+
+
+app.get('/', function(req, res) {
+    res.sendfile(__dirname + '/app.html');
+});
 
 app.get('/index.html', function(req, res) {
     res.sendfile(__dirname + '/app.html');
 });
-
-app.get('/lib/*', function(req, res) {
+/*app.get('/lib/*', function(req, res) {
     res.sendfile(__dirname + req.url);
 });
 app.get('/css/*', function(req, res) {
     res.sendfile(__dirname + req.url);
-});
+});*/
 
-app.all('/*', function(req, res) {
+app.get('/proxy', function(req, res) {
     req.url = req.query.url;
     restler.get(req.url, { headers: {'Referer':null, 'X-Requested-With':null} }).on('complete', function (data) {
         //res.set('Content-Type', 'application/xml');
