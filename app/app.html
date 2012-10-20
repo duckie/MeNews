@@ -3,6 +3,8 @@
 <head>
   <title>Auto JT</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+  <link rel="stylesheet" href="css/my.css" />
   <script type="text/javascript" src="lib/require.js"></script>
   <script type="text/javascript">
 
@@ -23,18 +25,69 @@
     require([
       'underscore',
       'jquery',
+      'jquerymobile'
     ],
-      function(_, $) {
+      function(_, $, jQueryMobile) {
         $(function() {
-          _.each(['allo','roger'], function(elem){
-            console.log(elem);
-          });
+          
         });
       });
 
   </script>
 </head>
 <body>
-  <!-- empty on purpose -->
+
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <label for="slider5">
+                            Duree
+                        </label>
+                        <input name="slider" value="5" min="5" max="30" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                    </fieldset>
+                </div>
+                <h2 id="title">
+                    Themes
+                </h2>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <label for="slider1">
+                            Business
+                        </label>
+                        <input name="slider" value="50" min="0" max="100" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="slider2">
+                            Affaires euro
+                        </label>
+                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="slider3">
+                            Science
+                        </label>
+                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="slider4">
+                            Culture
+                        </label>
+                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                    </fieldset>
+                </div>
+                <input data-icon="arrow-r" data-iconpos="left" value="Générer !" type="submit" />
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
 </body>
 </html>

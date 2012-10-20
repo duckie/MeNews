@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auto JT</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+  <link rel="stylesheet" href="css/stupeflix.css" />
+  <link rel="stylesheet" href="css/my.css" />
+  <script type="text/javascript" src="lib/require.js"></script>
+  <script type="text/javascript">
+
+    require.config({
+      baseUrl: './',
+      paths: {
+        'jquery': 'lib/jquery-1.8.2.min',
+        'jquerymobile': 'lib/jquery.mobile-1.2.0.min',
+        'underscore': 'lib/underscore',
+        'stupeflix': 'stupeflix-play-min'
+      },
+      shim: {
+        underscore: {
+          exports: "_"
+        },
+        stupeflix: {
+          exports: "Sx"
+        }
+      }
+    });
+
+    require([
+      'underscore',
+      'jquery',
+      //'jquerymobile'
+    ],
+      function(_, $, jQueryMobile) {
+        $(document).ready(function(){
+          $('body').append(unescape('%3Cscript src="http://static.stupeflix.com/play/1.2/play-min.js" type="text/javascript"%3E%3C/script%3E'));
+        });
+      });
+
+
+
+  </script>
+</head>
+<body>
+<div class="sxmovie" style="width:640px; height:360px;"><!--
+  <effect type="explode" duration="20">
+    <video filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/>
+  </effect>
+  <transition type="move" direction="left" duration="2"/>
+  <effect type="explode" duration="20">
+    <video skip="18" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/>
+  </effect>
+  <transition type="move" direction="left" duration="2"/>
+  <effect type="slice" duration="20">
+    <video skip="36" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov" />
+  </effect>
+--></div>
+</body>
+</html>
