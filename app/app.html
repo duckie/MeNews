@@ -20,7 +20,8 @@
         'jquery.getfeed': 'lib/jquery.jfeed.pack',
         'underscore': 'lib/underscore',
         'autojt':'lib/autojt',
-        'genui':'lib/generated.ui'
+        'genui':'lib/generated.ui', // Generated JS from Jquery Mobile
+        'jquery.ui':'lib/jquery-ui-1.9.0.custom.min'
       },
       shim: {
         underscore: {
@@ -34,12 +35,38 @@
     require([
       'underscore',
       'jquery',
-      'genui',
       'autojt',
-      'jquery.getfeed'
+      'genui',
+      'jquery.getfeed',
+      'jquery.ui'
     ],
-      function(_, $, jQueryMobile, autoJT, getFeed) {
+      function(_, $, autoJT) {
         $(function() {
+
+          function progressFeed(iCurrent, iTotal){
+            //console.log('Feed '+ iCurrent + '/' + iTotal);
+            $('#progress > h4').html('Loading RSS Feed '+ iCurrent + '/' + iTotal + '...');
+          };
+
+          function progressFlv(iCurrent, iTotal){
+            //console.log('FLV '+ iCurrent + '/' + iTotal);
+            $('#progress > h4').html('Extracting FLV File '+ iCurrent + '/' + iTotal + '...');
+          };
+
+          function transition1(){
+            $('#page1').fadeOut(500);
+            $('#progress').fadeIn(1000);
+            //console.log("kestuf");
+          };
+
+          function transition2()
+          {
+            $('#progress').fadeOut(1000);
+            $("body").animate( { backgroundColor: '#000' }, 1500, 'swing', function(){
+              $('#moviexml').fadeIn(1500);    
+            });
+          };
+
           $('#moviexml').hide();
 
           // Fields ids to be processed
@@ -54,7 +81,7 @@
             //console.log(datas);
 
             // Dump the result
-            autoJT.generateStupeflixXML(datas, $('#duration').val());
+            autoJT.generateStupeflixXML(datas, $('#duration').val(), progressFeed, progressFlv, transition1, transition2);
           });
         });
       });
@@ -141,6 +168,7 @@
         <script>
             //App custom javascript
         </script>
+        <div id='progress' style="padding-top:100px; margin:auto;"><h4 style="text-align:center;"></h4></div>
         <div id='moviexml' class="sxmovie" style="width:640px; height:480px; margin:auto;"></div>
 </body>
 </html>

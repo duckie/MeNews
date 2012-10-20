@@ -1,6 +1,6 @@
 define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
     
-    function generate_xml(iFlvFiles) {
+    function generate_xml(iFlvFiles, iTrans) {
         var stupeflix_xml = '<!-- '
 
         stupeflix_xml += '<effect type="none"><video filename="https://dl.dropbox.com/u/20904373/FINAL_generique.wmv" /></effect>';
@@ -11,9 +11,8 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         });
         stupeflix_xml += ' -->';
 
-        $('#page1').hide();
         $('#moviexml').append(stupeflix_xml);
-        $('#moviexml').show();
+        iTrans(); // Show the player
 
         var e = document.createElement('script');
         e.src = document.location.protocol + '//static.stupeflix.com/play/1.2/play-min.js';
@@ -21,13 +20,14 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         document.body.appendChild(e);
     }
 
-    function get_flv_list(iDuration, iFeeds)
+    function get_flv_list(iDuration, iFeeds, iProgressFlv, iTrans)
     {
         var nb_feeds = _.keys(iFeeds).length;
         var flv_files = [];
         var nb_movies = Math.floor( (iDuration*60 - 20)/20 );
         var nb = Math.floor(nb_movies/nb_feeds);
         var count = nb*nb_feeds;
+        var total = count;
 
         _.each(iFeeds, function(value,name){
             var feed = value;
@@ -40,9 +40,10 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
                     type: 'GET',
                     timeout:5000,
                     error: function(){
+                        iProgressFlv(total-count, total);
                         --count;
                         if(0 === count){
-                            generate_xml(flv_files);
+                            generate_xml(flv_files, iTrans);
                         }
                     },
                     success:function(data) {
@@ -58,9 +59,10 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
                             //$("#player").html('</br>'+flv);
                             flv_files.push(flv);
                         }
+                        iProgressFlv(total-count, total);
                         --count;
                         if(0 === count){
-                            generate_xml(flv_files);
+                            generate_xml(flv_files, iTrans);
                         }
                     }
                 });
@@ -69,10 +71,11 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
     }
 
 
-    function retrieve_feeds(iThemes, iDuration)
+    function retrieve_feeds(iThemes, iDuration, iProgressFeed, iProgressFlv, iTrans1, iTrans2)
     {
         var feeds = {};
         var datas = [];
+        var topic_index = 0;
         _.each(iThemes, function(value, index){
             if(value) {
                 datas.push(index);
@@ -86,22 +89,26 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
             culture:'http://feeds.feedburner.com/euronews/fr/lifestyle?format=xml'
         };
 
+        iTrans1();
+
         var count = datas.length;
-        _.each(datas, function(elem){
+        _.each(datas, function(elem, topic_index){
             $.getFeed({
               url: 'http://localhost:1235/?url=' + encodeURIComponent(toBrowse[elem]),
               timeout:5000,
               success: function(feed) {
+                iProgressFeed(topic_index + 1, datas.length);
                 feeds[elem] = feed;
                 --count;
                 if(0 === count) {
-                    get_flv_list(iDuration, feeds);
+                    get_flv_list(iDuration, feeds, iProgressFlv, iTrans2);
                 }
               },
               error:function(allo) {
+                iProgressFeed(topic_index + 1, datas.length);
                 --count;
                 if(0 === count){
-                    get_flv_list(iDuration, feeds);
+                    get_flv_list(iDuration, feeds, iProgressFlv, iTrans2);
                 }
               }
             });
