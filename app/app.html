@@ -16,13 +16,15 @@
       paths: {
         'jquery': 'lib/jquery-1.8.2.min',
         'jquerymobile': 'lib/jquery.mobile-1.2.0.min',
+        'jquery.getfeed': 'lib/jquery.jfeed.pack',
         'underscore': 'lib/underscore',
         'autojt':'lib/autojt'
       },
       shim: {
         underscore: {
           exports: "_"
-        }
+        },
+        'jquery.getfeed': ['jquery']
       }
     });
 
@@ -30,9 +32,10 @@
       'underscore',
       'jquery',
       'jquerymobile',
-      'autojt'
+      'autojt',
+      'jquery.getfeed'
     ],
-      function(_, $, jQueryMobile, autoJT) {
+      function(_, $, jQueryMobile, autoJT, getFeed) {
         $(function() {
           // Fields ids to be processed
           var ids = ['business', 'euro', 'science', 'culture'];
@@ -44,8 +47,8 @@
             });
 
             // Dump the result
-            console.log(autoJT.getStupeflixXML(datas));
-          })
+            autoJT.generateStupeflixXML(datas, $('#duration').val());
+          });
         });
       });
 
