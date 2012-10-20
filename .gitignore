@@ -1,2 +1,1 @@
-proxy/node/node_modules/*
-proxy/node/app
+app/node_modules/*

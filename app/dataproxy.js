@@ -9,14 +9,14 @@ app.use(express.bodyParser());
 app.listen(port);
 
 app.get('/index.html', function(req, res) {
-    res.sendfile(__dirname + '/app/app.html');
+    res.sendfile(__dirname + '/app.html');
 });
 
 app.get('/lib/*', function(req, res) {
-    res.sendfile(__dirname + '/app' + req.url);
+    res.sendfile(__dirname + req.url);
 });
 app.get('/css/*', function(req, res) {
-    res.sendfile(__dirname + '/app' + req.url);
+    res.sendfile(__dirname + req.url);
 });
 
 app.all('/*', function(req, res) {
