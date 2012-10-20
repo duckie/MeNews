@@ -34,7 +34,23 @@
     ],
       function(_, $, jQueryMobile) {
         $(document).ready(function(){
-          $('body').append(unescape('%3Cscript src="http://static.stupeflix.com/play/1.2/play-min.js" type="text/javascript"%3E%3C/script%3E'));
+          $('#moviexml').append('<!-- \
+            <effect type="explode" duration="20"> \
+            <video filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/> \
+            </effect> \
+            <transition type="move" direction="left" duration="2"/> \
+            <effect type="explode" duration="20"> \
+            <video skip="18" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/> \
+            </effect> \
+            <transition type="move" direction="left" duration="2"/> \
+            <effect type="slice" duration="20"> \
+            <video skip="36" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov" /> \
+            </effect> \
+          -->');
+
+          //$('#moviexml').ready(function(){
+            $('body').append(unescape('%3Cscript src="http://static.stupeflix.com/play/1.2/play-min.js" type="text/javascript"%3E%3C/script%3E'));
+          //});
         });
       });
 
@@ -43,18 +59,6 @@
   </script>
 </head>
 <body>
-<div class="sxmovie" style="width:640px; height:360px;"><!--
-  <effect type="explode" duration="20">
-    <video filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/>
-  </effect>
-  <transition type="move" direction="left" duration="2"/>
-  <effect type="explode" duration="20">
-    <video skip="18" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov"/>
-  </effect>
-  <transition type="move" direction="left" duration="2"/>
-  <effect type="slice" duration="20">
-    <video skip="36" filename="http://stupeflix-website.s3.amazonaws.com/code/nasa.mov" />
-  </effect>
---></div>
+<div id='moviexml' class="sxmovie" style="width:640px; height:360px;"></div>
 </body>
 </html>

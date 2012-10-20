@@ -3,7 +3,10 @@
 <head>
   <title>Auto JT</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />-->
+  <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
   <link rel="stylesheet" href="css/my.css" />
   <script type="text/javascript" src="lib/require.js"></script>
   <script type="text/javascript">
@@ -13,7 +16,8 @@
       paths: {
         'jquery': 'lib/jquery-1.8.2.min',
         'jquerymobile': 'lib/jquery.mobile-1.2.0.min',
-        'underscore': 'lib/underscore'
+        'underscore': 'lib/underscore',
+        'autojt':'lib/autojt'
       },
       shim: {
         underscore: {
@@ -25,11 +29,23 @@
     require([
       'underscore',
       'jquery',
-      'jquerymobile'
+      'jquerymobile',
+      'autojt'
     ],
-      function(_, $, jQueryMobile) {
+      function(_, $, jQueryMobile, autoJT) {
         $(function() {
+          // Fields ids to be processed
+          var ids = ['business', 'euro', 'science', 'culture'];
           
+          $('#submit-button').click(function(){
+            var datas = {};
+            _.each(ids,function(elem){
+              datas[elem] = $('#'+elem).val();
+            });
+
+            // Dump the result
+            console.log(autoJT.getStupeflixXML(datas));
+          })
         });
       });
 
@@ -45,7 +61,7 @@
                         <label for="slider5">
                             Duree
                         </label>
-                        <input name="slider" value="5" min="5" max="30" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                        <input id='duration' name="slider" value="5" min="5" max="30" data-highlight="true" data-theme="" data-track-theme="" type="range" />
                     </fieldset>
                 </div>
                 <h2 id="title">
@@ -56,7 +72,7 @@
                         <label for="slider1">
                             Business
                         </label>
-                        <input name="slider" value="50" min="0" max="100" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                        <input id='business' name="slider" value="50" min="0" max="100" data-highlight="true" data-theme="" data-track-theme="" type="range" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
@@ -64,7 +80,7 @@
                         <label for="slider2">
                             Affaires euro
                         </label>
-                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <input id='euro' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
@@ -72,7 +88,7 @@
                         <label for="slider3">
                             Science
                         </label>
-                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <input id='science' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
@@ -80,10 +96,10 @@
                         <label for="slider4">
                             Culture
                         </label>
-                        <input name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <input id='culture' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
                     </fieldset>
                 </div>
-                <input data-icon="arrow-r" data-iconpos="left" value="Générer !" type="submit" />
+                <input id='submit-button' data-icon="arrow-r" data-iconpos="left" value="Générer !" type="submit" />
             </div>
         </div>
         <script>
