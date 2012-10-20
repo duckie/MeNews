@@ -8,6 +8,7 @@
   <!--<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />-->
   <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
   <link rel="stylesheet" href="css/my.css" />
+  <link rel="stylesheet" href="css/stupeflix.css" />
   <script type="text/javascript" src="lib/require.js"></script>
   <script type="text/javascript">
 
@@ -18,33 +19,39 @@
         'jquerymobile': 'lib/jquery.mobile-1.2.0.min',
         'jquery.getfeed': 'lib/jquery.jfeed.pack',
         'underscore': 'lib/underscore',
-        'autojt':'lib/autojt'
+        'autojt':'lib/autojt',
+        'genui':'lib/generated.ui'
       },
       shim: {
         underscore: {
           exports: "_"
         },
-        'jquery.getfeed': ['jquery']
+        'jquery.getfeed': ['jquery'],
+        'genui': ['jquerymobile']
       }
     });
 
     require([
       'underscore',
       'jquery',
-      'jquerymobile',
+      'genui',
       'autojt',
       'jquery.getfeed'
     ],
       function(_, $, jQueryMobile, autoJT, getFeed) {
         $(function() {
+          $('#moviexml').hide();
+
           // Fields ids to be processed
           var ids = ['business', 'euro', 'science', 'culture'];
           
           $('#submit-button').click(function(){
             var datas = {};
             _.each(ids,function(elem){
-              datas[elem] = $('#'+elem).val();
+              datas[elem] = ('on' === $('#'+elem).val() ) ? true : false;
             });
+
+            //console.log(datas);
 
             // Dump the result
             autoJT.generateStupeflixXML(datas, $('#duration').val());
@@ -55,58 +62,85 @@
   </script>
 </head>
 <body>
-
-        <!-- Home -->
         <div data-role="page" id="page1">
             <div data-role="content">
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup" data-mini="true">
-                        <label for="slider5">
-                            Duree
+                        <label for="duration">
+                            Durée
                         </label>
-                        <input id='duration' name="slider" value="5" min="5" max="30" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                        <input id="duration" name="slider" value="3" min="3" max="30" data-highlight="true" data-theme="" data-track-theme="" type="range" />
                     </fieldset>
                 </div>
-                <h2 id="title">
-                    Themes
-                </h2>
+                <h3>
+                    Thèmes
+                </h3>
                 <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup" data-mini="true">
-                        <label for="slider1">
+                    <fieldset data-role="controlgroup">
+                        <label for="business">
                             Business
                         </label>
-                        <input id='business' name="slider" value="50" min="0" max="100" data-highlight="true" data-theme="" data-track-theme="" type="range" />
+                        <select name="toggleswitch1" id="business" data-theme="" data-role="slider" data-mini="true">
+                            <option value="off">
+                                Off
+                            </option>
+                            <option value="on">
+                                On
+                            </option>
+                        </select>
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider2">
-                            Affaires euro
+                        <label for="euro">
+                            Affaires européennes
                         </label>
-                        <input id='euro' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <select name="toggleswitch2" id="euro" data-theme="" data-role="slider" data-mini="true">
+                            <option value="off">
+                                Off
+                            </option>
+                            <option value="on">
+                                On
+                            </option>
+                        </select>
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider3">
+                        <label for="science">
                             Science
                         </label>
-                        <input id='science' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <select name="toggleswitch3" id="science" data-theme="" data-role="slider" data-mini="true">
+                            <option value="off">
+                                Off
+                            </option>
+                            <option value="on">
+                                On
+                            </option>
+                        </select>
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="slider4">
+                        <label for="culture">
                             Culture
                         </label>
-                        <input id='culture' name="slider" value="50" min="0" max="100" data-highlight="true" type="range" />
+                        <select name="toggleswitch4" id="culture" data-theme="" data-role="slider" data-mini="true">
+                            <option value="off">
+                                Off
+                            </option>
+                            <option value="on">
+                                On
+                            </option>
+                        </select>
                     </fieldset>
                 </div>
-                <input id='submit-button' data-icon="arrow-r" data-iconpos="left" value="Générer !" type="submit" />
+                <input id="submit-button" value="Générer" type="submit" />
             </div>
         </div>
         <script>
             //App custom javascript
         </script>
+        <div id='moviexml' class="sxmovie" style="width:640px; height:360px;"></div>
 </body>
 </html>
