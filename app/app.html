@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auto JT</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script type="text/javascript" src="lib/require.js"></script>
+  <script type="text/javascript">
+
+    require.config({
+      baseUrl: './',
+      paths: {
+        'jquery': 'lib/jquery-1.8.2.min',
+        'jquerymobile': 'lib/jquery.mobile-1.2.0.min',
+        'underscore': 'lib/underscore'
+      },
+      shim: {
+        underscore: {
+          exports: "_"
+        }
+      }
+    });
+
+    require([
+      'underscore',
+      'jquery',
+    ],
+      function(_, $) {
+        $(function() {
+          _.each(['allo','roger'], function(elem){
+            console.log(elem);
+          });
+        });
+      });
+
+  </script>
+</head>
+<body>
+  <!-- empty on purpose -->
+</body>
+</html>
