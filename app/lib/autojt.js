@@ -11,13 +11,15 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         stupeflix_xml += '<transition type="crossfade" duration="1" /><overlay duration="3.0"><image color="#000000"/></overlay><transition type="crossfade" duration="1" />'
 
         _.each(iFlvFiles, function(elem){
-            //stupeflix_xml += '<effect type="explode" duration="20"> <video filename="'+elem+'"/> </effect> <transition type="move" direction="left" duration="2"/>'
+            // Header
+            stupeflix_xml += '<stack duration="4"><overlay height="1.0" width="1.0"><image color="#000000" /></overlay><text type="zone" vector="true">' + elem.title + '</text></stack>';
+            stupeflix_xml += '<transition type="crossfade" duration="1" /><overlay duration="3.0"><image color="#000000"/></overlay><transition type="crossfade" duration="1" />';
             
             // Video
-            stupeflix_xml += '<effect type="none" duration="20.0"><video filename="'+elem+'" /></effect>'
+            stupeflix_xml += '<effect type="none" duration="20.0"><video filename="'+elem.url+'" /></effect>';
 
             // Transition
-            stupeflix_xml += '<transition type="crossfade" duration="1" /><overlay duration="3.0"><image color="#000000"/></overlay><transition type="crossfade" duration="1" />'
+            stupeflix_xml += '<transition type="crossfade" duration="1" /><overlay duration="3.0"><image color="#000000"/></overlay><transition type="crossfade" duration="1" />';
         });
 
         stupeflix_xml += '<overlay duration="5.0"><image color="#000000"/></overlay>';
@@ -52,39 +54,44 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
             var local_nb = Math.min(nb,feed.items.length);
             var items = [];
             var index = 0;
+            var title = '';
+            var items_titles;
             for(index = 0; index < local_nb; ++index) {
-                $.ajax({
-                    //url: 'http://localhost:1235/?url=' + encodeURIComponent(feed.items[index].link),
-                    url: '/proxy?url=' + encodeURIComponent(feed.items[index].link),
-                    type: 'GET',
-                    timeout:5000,
-                    error: function(){
-                        iProgressFlv(total-count, total);
-                        --count;
-                        if(0 === count){
-                            generate_xml(flv_files, iTrans);
-                        }
-                    },
-                    success:function(data) {
-                        var str = "videofile:\"flv";
-                        var flv = '';
-                        var idx, idx2;
+                (function(){
+                    var title = feed.items[index].title;
+                    $.ajax({
+                        //url: 'http://localhost:1235/?url=' + encodeURIComponent(feed.items[index].link),
+                        url: '/proxy?url=' + encodeURIComponent(feed.items[index].link),
+                        type: 'GET',
+                        timeout:5000,
+                        error: function(){
+                            iProgressFlv(total-count, total);
+                            --count;
+                            if(0 === count){
+                                generate_xml(flv_files, iTrans);
+                            }
+                        },
+                        success:function(data) {
+                            var str = "videofile:\"flv";
+                            var flv = '';
+                            var idx, idx2;
 
-                        idx = data.indexOf(str);
-                        if(-1 != idx) {
-                            idx2 = data.indexOf("\"",idx+str.length);
-                            // http://video.euronews.com/flv/new/cut/eco/121019_BUSU_180A0_F.flv
-                            flv = "http://video.euronews.com/flv"+data.substring(idx+str.length,idx2)+".flv";
-                            //$("#player").html('</br>'+flv);
-                            flv_files.push(flv);
+                            idx = data.indexOf(str);
+                            if(-1 != idx) {
+                                idx2 = data.indexOf("\"",idx+str.length);
+                                // http://video.euronews.com/flv/new/cut/eco/121019_BUSU_180A0_F.flv
+                                flv = "http://video.euronews.com/flv"+data.substring(idx+str.length,idx2)+".flv";
+                                //$("#player").html('</br>'+flv);
+                                flv_files.push({url:flv, title:title});
+                            }
+                            iProgressFlv(total-count, total);
+                            --count;
+                            if(0 === count){
+                                generate_xml(flv_files, iTrans);
+                            }
                         }
-                        iProgressFlv(total-count, total);
-                        --count;
-                        if(0 === count){
-                            generate_xml(flv_files, iTrans);
-                        }
-                    }
-                });
+                    });
+                })();
             }
         });
     }
