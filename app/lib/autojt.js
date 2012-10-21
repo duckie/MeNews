@@ -26,8 +26,14 @@ define(['underscore','jquery', 'jquery.getfeed'],function(_, $, getfeed){
         var flv_files = [];
         var nb_movies = Math.floor( (iDuration*60 - 20)/20 );
         var nb = Math.floor(nb_movies/nb_feeds);
-        var count = nb*nb_feeds;
+        var count = 0;
+        
+        _.each(iFeeds, function(feed){
+            count += Math.min(nb,feed.items.length);
+        });
+        
         var total = count;
+        
 
         _.each(iFeeds, function(value,name){
             var feed = value;
