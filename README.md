@@ -1,17 +1,20 @@
-AutoJT
+MeNews
 ======
 
 Realized for "HackDay Paris : Connected TV", this project builds a video news report based on the user preferences.
 
-# How to run
+#Try online
 
-Install nodejs, then execute the following:
+Visit [http://menews.herokuapp.com/](http://menews.herokuapp.com/).
+
+# Run on local machine
+
+Install [NodeJS](http://nodejs.org/), then execute the following:
 
 ``` 
 npm install express restler
-cd app
-node dataproxy.js
+node app/dataproxy.js
 ```
 
-Then open this page : http://localhost:1235/index.html and enjoy.
+Then open this page : [http://localhost:1235/](http://localhost:1235/) and enjoy.
 
